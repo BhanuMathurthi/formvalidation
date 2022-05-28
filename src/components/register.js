@@ -28,13 +28,10 @@ const Register = () => {
   const [phonenumFocus, setPhonenumFocus] = useState(false);
 
   const [address, setAddress] = useState("");
-  const [addressFocus, setAddressFocus] = useState(false);
 
   const [pwd, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
   const [pwdFocus, setPwdFocus] = useState(false);
-
-  const [matchFocus, setMatchFocus] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
@@ -202,8 +199,6 @@ const Register = () => {
               value={address}
               required
               aria-describedby="uidnote"
-              onFocus={() => setAddressFocus(true)}
-              onBlur={() => setAddressFocus(false)}
             />
 
             <label className="text-light" htmlFor="password">
@@ -243,8 +238,8 @@ const Register = () => {
               <span aria-label="at symbol">@</span>{" "}
               <span aria-label="hashtag">#</span>{" "}
               <span aria-label="dollar sign">$</span>{" "}
-              <span aria-label="percent">%</span>
-              <span aria-label="percent">&</span>
+              <span aria-label="percent">%</span>{" "}
+              <span aria-label="percent">&</span>{" "}
               <span aria-label="percent">^</span>
             </p>
 
