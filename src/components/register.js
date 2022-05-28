@@ -17,21 +17,21 @@ const Register = () => {
   const userRef = useRef();
 
   const [user, setUser] = useState("");
-  const [userFocus, setUserFocus] = useState(false);
+  // const [userFocus, setUserFocus] = useState(false);
 
   const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(false);
-  const [emailFocus, setEmailFocus] = useState(false);
+  // const [emailFocus, setEmailFocus] = useState(false);
 
   const [phonenum, setPhonenum] = useState("");
   const [validPhonenum, setValidPhonenum] = useState(false);
-  const [phonenumFocus, setPhonenumFocus] = useState(false);
+  // const [phonenumFocus, setPhonenumFocus] = useState(false);
 
   const [address, setAddress] = useState("");
 
   const [pwd, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
-  const [pwdFocus, setPwdFocus] = useState(false);
+  // const [pwdFocus, setPwdFocus] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
@@ -110,8 +110,8 @@ const Register = () => {
               value={user}
               required
               aria-describedby="uidnote"
-              onFocus={() => setUserFocus(true)}
-              onBlur={() => setUserFocus(false)}
+              // onFocus={() => setUserFocus(true)}
+              // onBlur={() => setUserFocus(false)}
             />
             <label className="text-light" htmlFor="email">
               Email:
@@ -127,20 +127,21 @@ const Register = () => {
             <input
               type="email"
               id="email"
-              ref={userRef}
+              // ref={userRef}
               autoComplete="off"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               required
               aria-invalid={validEmail ? "false" : "true"}
               aria-describedby="uidnote"
-              onFocus={() => setEmailFocus(true)}
-              onBlur={() => setEmailFocus(false)}
+              // onFocus={() => setEmailFocus(true)}
+              // onBlur={() => setEmailFocus(false)}
             />
             <p
               id="emailnote"
               className={
-                emailFocus && !validEmail ? "instructions" : "offscreen"
+                // emailFocus && !validEmail ? "instructions" : "offscreen"
+                !validEmail ? "instructions" : "offscreen"
               }
             >
               <FontAwesomeIcon icon={faInfoCircle} />
@@ -164,20 +165,21 @@ const Register = () => {
             <input
               type="tel"
               id="phone"
-              ref={userRef}
+              // ref={userRef}
               autoComplete="off"
               onChange={(e) => setPhonenum(e.target.value)}
               value={phonenum}
               required
               aria-invalid={validPhonenum ? "false" : "true"}
               aria-describedby="uidnote"
-              onFocus={() => setPhonenumFocus(true)}
-              onBlur={() => setPhonenumFocus(false)}
+              // onFocus={() => setPhonenumFocus(true)}
+              // onBlur={() => setPhonenumFocus(false)}
             />
             <p
               id="phonenote"
               className={
-                phonenumFocus && !validPhonenum ? "instructions" : "offscreen"
+                // phonenumFocus && !validPhonenum ? "instructions" : "offscreen"
+                !validPhonenum ? "instructions" : "offscreen"
               }
             >
               <FontAwesomeIcon icon={faInfoCircle} />
@@ -193,7 +195,7 @@ const Register = () => {
             <input
               type="text"
               id="address"
-              ref={userRef}
+              // ref={userRef}
               autoComplete="on"
               onChange={(e) => setAddress(e.target.value)}
               value={address}
@@ -220,12 +222,13 @@ const Register = () => {
               required
               aria-invalid={validPwd ? "false" : "true"}
               aria-describedby="pwdnote"
-              onFocus={() => setPwdFocus(true)}
-              onBlur={() => setPwdFocus(false)}
+              // onFocus={() => setPwdFocus(true)}
+              // onBlur={() => setPwdFocus(false)}
             />
             <p
               id="pwdnote"
-              className={pwdFocus && !validPwd ? "instructions" : "offscreen"}
+              // className={pwdFocus && !validPwd ? "instructions" : "offscreen"}
+              className={!validPwd ? "instructions" : "offscreen"}
             >
               <FontAwesomeIcon icon={faInfoCircle} />
               8 to 24 characters.
