@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
 const EMAIL_REGEX =
-  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?)*$/;
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const PHONE_REGEX = /^[6-9]\d{9}$/;
 const PWD_REGEX =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*-]{2}).{8,24}$/;
@@ -17,23 +17,22 @@ const Register = () => {
   const userRef = useRef();
 
   const [user, setUser] = useState("");
-  // const [userFocus, setUserFocus] = useState(false);
+  const [userFocus, setUserFocus] = useState(false);
 
   const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(false);
-  // const [emailFocus, setEmailFocus] = useState(false);
+  const [emailFocus, setEmailFocus] = useState(false);
 
   const [phonenum, setPhonenum] = useState("");
   const [validPhonenum, setValidPhonenum] = useState(false);
-  // const [phonenumFocus, setPhonenumFocus] = useState(false);
+  const [phonenumFocus, setPhonenumFocus] = useState(false);
 
   const [address, setAddress] = useState("");
 
   const [pwd, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
-  // const [pwdFocus, setPwdFocus] = useState(false);
+  const [pwdFocus, setPwdFocus] = useState(false);
 
-  const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
@@ -45,23 +44,11 @@ const Register = () => {
   }, [email]);
 
   useEffect(() => {
-    setErrMsg("");
-  }, [email]);
-
-  useEffect(() => {
     setValidPhonenum(PHONE_REGEX.test(phonenum));
   }, [phonenum]);
 
   useEffect(() => {
-    setErrMsg("");
-  }, [phonenum]);
-
-  useEffect(() => {
     setValidPwd(PWD_REGEX.test(pwd));
-  }, [pwd]);
-
-  useEffect(() => {
-    setErrMsg("");
   }, [pwd]);
 
   const handleSubmit = (e) => {
@@ -72,7 +59,6 @@ const Register = () => {
 
     if (v1 && v2 && v3) {
       setSuccess(true);
-      return;
     }
   };
 
@@ -109,9 +95,8 @@ const Register = () => {
               onChange={(e) => setUser(e.target.value)}
               value={user}
               required
-              aria-describedby="uidnote"
-              // onFocus={() => setUserFocus(true)}
-              // onBlur={() => setUserFocus(false)}
+              onFocus={() => setUserFocus(true)}
+              onBlur={() => setUserFocus(false)}
             />
             <label className="text-light" htmlFor="email">
               Email:
@@ -127,25 +112,22 @@ const Register = () => {
             <input
               type="email"
               id="email"
-              // ref={userRef}
               autoComplete="off"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               required
               aria-invalid={validEmail ? "false" : "true"}
-              aria-describedby="uidnote"
-              // onFocus={() => setEmailFocus(true)}
-              // onBlur={() => setEmailFocus(false)}
+              onFocus={() => setEmailFocus(true)}
+              onBlur={() => setEmailFocus(false)}
             />
             <p
               id="emailnote"
               className={
-                // emailFocus && !validEmail ? "instructions" : "offscreen"
-                !validEmail ? "instructions" : "offscreen"
+                emailFocus && !validEmail ? "instructions" : "offscreen"
               }
             >
               <FontAwesomeIcon icon={faInfoCircle} />
-              0 to 30 characters.
+              Should be a valid email
               <br />
               Allowed special characters: <br />
               <span aria-label="at symbol">@</span>{" "}
@@ -165,21 +147,18 @@ const Register = () => {
             <input
               type="tel"
               id="phone"
-              // ref={userRef}
               autoComplete="off"
               onChange={(e) => setPhonenum(e.target.value)}
               value={phonenum}
               required
               aria-invalid={validPhonenum ? "false" : "true"}
-              aria-describedby="uidnote"
-              // onFocus={() => setPhonenumFocus(true)}
-              // onBlur={() => setPhonenumFocus(false)}
+              onFocus={() => setPhonenumFocus(true)}
+              onBlur={() => setPhonenumFocus(false)}
             />
             <p
               id="phonenote"
               className={
-                // phonenumFocus && !validPhonenum ? "instructions" : "offscreen"
-                !validPhonenum ? "instructions" : "offscreen"
+                phonenumFocus && !validPhonenum ? "instructions" : "offscreen"
               }
             >
               <FontAwesomeIcon icon={faInfoCircle} />
@@ -195,12 +174,10 @@ const Register = () => {
             <input
               type="text"
               id="address"
-              // ref={userRef}
               autoComplete="on"
               onChange={(e) => setAddress(e.target.value)}
               value={address}
               required
-              aria-describedby="uidnote"
             />
 
             <label className="text-light" htmlFor="password">
@@ -221,14 +198,12 @@ const Register = () => {
               value={pwd}
               required
               aria-invalid={validPwd ? "false" : "true"}
-              aria-describedby="pwdnote"
-              // onFocus={() => setPwdFocus(true)}
-              // onBlur={() => setPwdFocus(false)}
+              onFocus={() => setPwdFocus(true)}
+              onBlur={() => setPwdFocus(false)}
             />
             <p
               id="pwdnote"
-              // className={pwdFocus && !validPwd ? "instructions" : "offscreen"}
-              className={!validPwd ? "instructions" : "offscreen"}
+              className={pwdFocus && !validPwd ? "instructions" : "offscreen"}
             >
               <FontAwesomeIcon icon={faInfoCircle} />
               8 to 24 characters.
