@@ -14,24 +14,6 @@ const PWD_REGEX =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[0-9])(?=.*[!@#$%^&*-]{2})[A-Za-z\d!@#$%^&*-]{8,12}$/;
 
 const Register = () => {
-  useEffect(() => {
-    if (!navigator.geolocation) {
-      setStatus("Geolocation is not supported by your browser");
-    } else {
-      setStatus("Locating...");
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setStatus(null);
-          setLat(position.coords.latitude);
-          setLng(position.coords.longitude);
-        },
-        () => {
-          setStatus("Unable to retrieve your location");
-        }
-      );
-    }
-  }, []);
-
   const userRef = useRef();
 
   const [lat, setLat] = useState(null);
@@ -63,15 +45,27 @@ const Register = () => {
 
   useEffect(() => {
     setValidEmail(EMAIL_REGEX.test(email));
-  }, [email]);
-
-  useEffect(() => {
     setValidPhonenum(PHONE_REGEX.test(phonenum));
-  }, [phonenum]);
+    setValidPwd(PWD_REGEX.test(pwd));
+  }, [email, phonenum, pwd]);
 
   useEffect(() => {
-    setValidPwd(PWD_REGEX.test(pwd));
-  }, [pwd]);
+    if (!navigator.geolocation) {
+      setStatus("Geolocation is not supported by your browser");
+    } else {
+      setStatus("Locating...");
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setStatus(null);
+          setLat(position.coords.latitude);
+          setLng(position.coords.longitude);
+        },
+        () => {
+          setStatus("Unable to retrieve your location");
+        }
+      );
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -262,7 +256,7 @@ const Register = () => {
             Already registered?
             <br />
             <span className="line">
-              <Link className="btn btn-dark my-2" to="/login">
+              <Link className="btn btn-light text-dark my-2" to="/login">
                 Login
               </Link>
             </span>
