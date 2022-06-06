@@ -12,7 +12,7 @@ const Login = () => {
 
   const PHONE_REGEX = /^[6-9]\d{9}$/;
   const PWD_REGEX =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*-]{2}).{8,24}$/;
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[0-9])(?=.*[!@#$%^&*-]{2})[A-Za-z\d!@#$%^&*-]{8,12}$/;
 
   const [phonenum, setPhonenum] = useState("");
   const [validPhonenum, setValidPhonenum] = useState(false);
@@ -135,17 +135,19 @@ const Login = () => {
               className={pwdFocus && !validPwd ? "instructions" : "offscreen"}
             >
               <FontAwesomeIcon icon={faInfoCircle} />
-              8 to 24 characters.
+              At least 8 characters and at most 12 characters.
               <br />
-              Must include uppercase and lowercase letters, a number and 2
-              special characters.
+              At least one Uppercase character & one numeric & At least two
+              special characters
               <br />
               Allowed special characters:{" "}
               <span aria-label="exclamation mark">!</span>{" "}
               <span aria-label="at symbol">@</span>{" "}
               <span aria-label="hashtag">#</span>{" "}
               <span aria-label="dollar sign">$</span>{" "}
-              <span aria-label="percent">%</span>
+              <span aria-label="percent">%</span>{" "}
+              <span aria-label="percent">&</span>{" "}
+              <span aria-label="percent">^</span>
             </p>
 
             <button

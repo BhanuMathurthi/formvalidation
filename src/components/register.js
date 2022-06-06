@@ -6,15 +6,42 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+// import useGeoLocation from "./usegeolocation";
 
 const EMAIL_REGEX =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const PHONE_REGEX = /^[6-9]\d{9}$/;
 const PWD_REGEX =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*-]{2}).{8,24}$/;
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[0-9])(?=.*[!@#$%^&*-]{2})[A-Za-z\d!@#$%^&*-]{8,12}$/;
 
 const Register = () => {
+  // function getLocation() {
+
+  // }
+
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      setStatus("Geolocation is not supported by your browser");
+    } else {
+      setStatus("Locating...");
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setStatus(null);
+          setLat(position.coords.latitude);
+          setLng(position.coords.longitude);
+        },
+        () => {
+          setStatus("Unable to retrieve your location");
+        }
+      );
+    }
+  }, []);
+
   const userRef = useRef();
+
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
+  const [status, setStatus] = useState(null);
 
   const [user, setUser] = useState("");
   const [userFocus, setUserFocus] = useState(false);
@@ -27,13 +54,18 @@ const Register = () => {
   const [validPhonenum, setValidPhonenum] = useState(false);
   const [phonenumFocus, setPhonenumFocus] = useState(false);
 
-  const [address, setAddress] = useState("");
-
   const [pwd, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
   const [pwdFocus, setPwdFocus] = useState(false);
 
   const [success, setSuccess] = useState(false);
+
+  const [details, setDetails] = useState(null);
+
+  const [address, setAddress] = useState("");
+
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
 
   useEffect(() => {
     userRef.current.focus();
@@ -171,6 +203,12 @@ const Register = () => {
               Address:
             </label>
 
+            <div className="text-center text-warning">
+              <p>{status}</p>
+              {lat && <p>Latitude: {lat}</p>}
+              {lng && <p>Longitude: {lng}</p>}
+            </div>
+
             <input
               type="text"
               id="address"
@@ -206,10 +244,10 @@ const Register = () => {
               className={pwdFocus && !validPwd ? "instructions" : "offscreen"}
             >
               <FontAwesomeIcon icon={faInfoCircle} />
-              8 to 24 characters.
+              At least 8 characters and at most 12 characters.
               <br />
-              Must include uppercase and lowercase letters, a number and 2
-              special characters.
+              At least one Uppercase character & one numeric & At least two
+              special characters
               <br />
               Allowed special characters:{" "}
               <span aria-label="exclamation mark">!</span>{" "}
