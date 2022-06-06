@@ -262,7 +262,7 @@ const Register = () => {
             Already registered?
             <br />
             <span className="line">
-              <Link className="btn btn-success my-2" to="/login">
+              <Link className="btn btn-dark my-2" to="/login">
                 Login
               </Link>
             </span>
