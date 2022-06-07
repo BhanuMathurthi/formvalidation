@@ -6,6 +6,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import CountrySelect from "react-bootstrap-country-select";
+import axios from "axios";
 
 const EMAIL_REGEX =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -27,6 +29,12 @@ const Register = () => {
   const [validEmail, setValidEmail] = useState(false);
   const [emailFocus, setEmailFocus] = useState(false);
 
+  const [organization, setOrganization] = useState("");
+  const [organizationFocus, setOrganizationFocus] = useState(false);
+
+  const [country, setCountry] = useState("");
+  const [countryFocus, setCountryFocus] = useState(false);
+
   const [phonenum, setPhonenum] = useState("");
   const [validPhonenum, setValidPhonenum] = useState(false);
   const [phonenumFocus, setPhonenumFocus] = useState(false);
@@ -38,6 +46,10 @@ const Register = () => {
   const [success, setSuccess] = useState(false);
 
   const [address, setAddress] = useState("");
+
+  const [value, setValue] = useState(null);
+
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     userRef.current.focus();
@@ -76,6 +88,25 @@ const Register = () => {
     if (v1 && v2 && v3) {
       setSuccess(true);
     }
+    const url = "https://strofesapps.live/junglewatch/user/register";
+
+    axios
+      .post(url, {
+        user: "",
+        email: "",
+        phonenum: "",
+        pwd: "",
+        organization: "",
+        country: "",
+        lat: "",
+        lng: "",
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   };
 
   return (
@@ -121,7 +152,6 @@ const Register = () => {
                             ref={userRef}
                             autoComplete="off"
                             onChange={(e) => setUser(e.target.value)}
-                            value={user}
                             required
                             onFocus={() => setUserFocus(true)}
                             onBlur={() => setUserFocus(false)}
@@ -202,6 +232,32 @@ const Register = () => {
                             <br />
                             upto 10 digits <br />
                           </p>
+
+                          <label className="text-dark" htmlFor="organization">
+                            Organization:
+                          </label>
+                          <input
+                            type="text"
+                            value={organization}
+                            id="organization"
+                            autoComplete="off"
+                            onChange={(e) => setOrganization(e.target.value)}
+                            required
+                            onFocus={() => setOrganizationFocus(true)}
+                            onBlur={() => setOrganizationFocus(false)}
+                          />
+
+                          <label className="text-dark" htmlFor="country">
+                            Country:
+                          </label>
+                          <CountrySelect
+                            value={country}
+                            onChange={(e) => setCountry(e.target.value)}
+                            id="country"
+                            required
+                            onFocus={() => setCountryFocus(true)}
+                            onBlur={() => setCountryFocus(false)}
+                          />
 
                           <label className="text-dark" htmlFor="address">
                             Address:
