@@ -1,40 +1,6 @@
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-html {
-  font-family: 'Nunito', sans-serif;
-  font-size: 18px;
-  color: #fff ;
-}
 
-body {
-  min-height: 100vh;
-  background-color: #fff !important;
-}
-
-.App {
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-min-height: 100vh; 
-padding: 1rem 0.5rem;
-}
-
-section {
-  width: 100%;
-  max-width: 450px;
-  min-height: 400px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 1rem;
-  background-color: rgb(23, 63, 104) !important;
-}
 
 form {
   display: flex;
@@ -53,6 +19,8 @@ a:hover {
   color: rgb(165, 163, 13) !important;
 }
 
+
+
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -60,14 +28,20 @@ input[type="tel"],
 button,
 textarea {
 font-family: 'Nunito', sans-serif;
-font-size: 17px;
-padding: 0.25rem;
+font-size: 16px;
+padding: 0.35rem;
 border-radius: 0.5rem;
 }
 
 label,
 button {
 margin-top: 1rem;
+}
+
+
+label{
+  font-size: 17px;
+  margin-bottom: 4px;
 }
 
 button {
