@@ -1,12 +1,13 @@
 import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App";
+// import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "bootstrap/dist/css/bootstrap.css";
 import "react-bootstrap-country-select/dist/react-bootstrap-country-select.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
+import App from "./App";
 import "./App.css";
 
 const root = createRoot(document.getElementById("root"));

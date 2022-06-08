@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import CountrySelect from "react-bootstrap-country-select";
 import axios from "axios";
 
+
 const EMAIL_REGEX =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const PHONE_REGEX = /^[6-9]\d{9}$/;
@@ -49,7 +50,7 @@ const Register = () => {
 
   // const [value, setValue] = useState(null);
 
-  // const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     userRef.current.focus();
@@ -88,25 +89,26 @@ const Register = () => {
     if (v1 && v2 && v3) {
       setSuccess(true);
     }
-    // const url = "https://strofesapps.live/junglewatch/user/register";
+    const url = "https://strofesapps.live/junglewatch/user/register";
 
-    // axios
-    //   .post(url, {
-    //     user: "",
-    //     email: "",
-    //     phonenum: "",
-    //     pwd: "",
-    //     organization: "",
-    //     country: "",
-    //     lat: "",
-    //     lng: "",
-    //   })
-    //   .then((response) => {
-    //     console.log(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.response);
-    //   });
+    axios
+      .post(url, {
+        user: "",
+        email: "",
+        phonenum: "",
+        pwd: "",
+        organization: "",
+        country: "",
+        lat: "",
+        lng: "",
+      })
+      .then((response) => {
+        const formdetails = response.data;
+        setData({ formdetails });
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   };
 
   return (
@@ -346,6 +348,14 @@ const Register = () => {
                               to="/login"
                             >
                               Login
+                            </Link>
+                          </span> &nbsp;
+                          <span className="line my-2">
+                            <Link
+                              className="btn btn-success text-light my-2"
+                              to="/otpbox"
+                            >
+                              Otp validation
                             </Link>
                           </span>
                         </p>

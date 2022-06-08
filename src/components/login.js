@@ -29,12 +29,14 @@ export default function Login() {
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
+  const [err, setErr] = useState("");
+
   useEffect(() => {
     setValidPhonenum(PHONE_REGEX.test(phonenum));
   }, [phonenum]);
 
   useEffect(() => {
-    setErrMsg("");
+    setErrMsg("invalid phone number");
   }, [phonenum]);
 
   useEffect(() => {
@@ -42,7 +44,7 @@ export default function Login() {
   }, [pwd]);
 
   useEffect(() => {
-    setErrMsg("");
+    setErrMsg("Invalid password");
   }, [pwd]);
 
   useEffect(() => {
@@ -58,19 +60,20 @@ export default function Login() {
       setSuccess(true);
     }
 
-    const url = "https://strofesapps.live/junglewatch/user/register";
+    const url = "https://strofesapps.live/junglewatch/user/login";
 
     axios
       .post(url, {
-        phonenum,
-        pwd,
+        "phonenum": "",
+        "pwd": "",
+
       })
       .then((res) => {
         const details = res.data;
         setData({ details });
       })
       .catch((error) => {
-        console.log(error.res);
+        setErr(error.res);
       });
   };
 
@@ -87,7 +90,7 @@ export default function Login() {
           &nbsp; &nbsp;
           <p>
             <span className="line my-2">
-              <Link className="btn btn-success text-light my-2" to="/">
+              <Link className="text-secondary my-2" to="/">
                 Back to home
               </Link>
             </span>
@@ -198,7 +201,7 @@ export default function Login() {
                           <button
                             className="mt-4 btn btn-success"
                             disabled={
-                              !validPhonenum || !validPwd ? true : false
+                              !validPhonenum && !validPwd ? true : false
                             }
                           >
                             Login
