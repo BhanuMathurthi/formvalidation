@@ -143,37 +143,47 @@ const Register = () => {
                   <div className="card-body p-md-5">
                     <div className="row justify-content-center">
                       <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-                        <p className="text-center text-primary h1 fw-bold mb-3 mx-1 mx-md-4 mt-4">
+                        <p className="text-center text-primary h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
                           Sign Up
                         </p>
 
                         <form onSubmit={handleSubmit}>
-                          <label className="text-dark" htmlFor="firstname">
-                            First Name:
-                          </label>
-                          <input
-                            type="text"
-                            id="firstname"
-                            ref={userRef}
-                            autoComplete="off"
-                            onChange={(e) => setFirstname(e.target.value)}
-                            required
-                            onFocus={() => setFirstnameFocus(true)}
-                            onBlur={() => setFirstnameFocus(false)}
-                          />
-                          <label className="text-dark" htmlFor="firstname">
-                            Last Name:
-                          </label>
-                          <input
-                            type="text"
-                            id="lastname"
-                            ref={userRef}
-                            autoComplete="off"
-                            onChange={(e) => setLastname(e.target.value)}
-                            required
-                            onFocus={() => setLastnameFocus(true)}
-                            onBlur={() => setLastnameFocus(false)}
-                          />
+                          <div className="row mt-3">
+                            <div className="col">
+                              <label className="text-dark" htmlFor="firstname">
+                                First Name:
+                              </label>
+                              <input
+                                ref={userRef}
+                                type="text"
+                                id="firstname"
+                                className="form-control text-dark"
+                                aria-label="First name"
+                                autoComplete="off"
+                                onFocus={() => setFirstnameFocus(true)}
+                                onBlur={() => setFirstnameFocus(false)}
+                                onChange={(e) => setFirstname(e.target.value)}
+                                required
+                              />
+                            </div>
+                            <div className="col">
+                              <label className="text-dark" htmlFor="lastname">
+                                Last Name:
+                              </label>
+                              <input
+                                type="text"
+                                id="lastname"
+                                className="form-control text-dark"
+                                aria-label="Last name"
+                                autoComplete="off"
+                                onFocus={() => setLastnameFocus(true)}
+                                onBlur={() => setLastnameFocus(false)}
+                                onChange={(e) => setLastname(e.target.value)}
+                                required
+                              />
+                            </div>
+                          </div>
+
                           <label className="text-dark" htmlFor="email">
                             Email:
                             <FontAwesomeIcon
