@@ -35,8 +35,8 @@ const Register = () => {
   const [organization, setOrganization] = useState("");
   const [organizationFocus, setOrganizationFocus] = useState(false);
 
-  const [country, setCountry] = useState("");
-  const [countryFocus, setCountryFocus] = useState(false);
+  // const [country, setCountry] = useState("");
+  // const [countryFocus, setCountryFocus] = useState(false);
 
   const [phone, setPhone] = useState("");
   const [validPhone, setValidPhone] = useState(false);
@@ -94,21 +94,6 @@ const Register = () => {
 
     const url = "https://strofesapps.live/junglewatch/user/register";
 
-    // try {
-    //   const resp = await axios.post(url, {
-    //     user,
-    //     email,
-    //     phone,
-    //     pwd,
-    //     organization,
-    //     // country,
-    //     lat,
-    //     lng,
-    //   });
-    //   console.log(resp);
-    // } catch (error) {
-    //   console.log(error.response);
-
     axios
       .post(url, {
         firstname,
@@ -117,7 +102,6 @@ const Register = () => {
         phone,
         password,
         organization,
-        country,
         lat,
         lng,
       })
@@ -281,7 +265,7 @@ const Register = () => {
                             onBlur={() => setOrganizationFocus(false)}
                           />
 
-                          <label className="text-dark" htmlFor="country">
+                          {/* <label className="text-dark" htmlFor="country">
                             Country:
                           </label>
                           <CountrySelect
@@ -291,7 +275,7 @@ const Register = () => {
                             required
                             onFocus={() => setCountryFocus(true)}
                             onBlur={() => setCountryFocus(false)}
-                          />
+                          /> */}
 
                           <label className="text-dark" htmlFor="address">
                             Address:
