@@ -7,6 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
   const userRef = useRef();
@@ -22,6 +23,8 @@ export default function Login() {
   const [pwd, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
   const [pwdFocus, setPwdFocus] = useState(false);
+
+  const [data, setData] = useState([]);
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
@@ -54,6 +57,21 @@ export default function Login() {
     if (v1 && v2) {
       setSuccess(true);
     }
+
+    const url = "https://strofesapps.live/junglewatch/user/register";
+
+    axios
+      .post(url, {
+        phonenum,
+        pwd,
+      })
+      .then((res) => {
+        const details = res.data;
+        setData({ details });
+      })
+      .catch((error) => {
+        console.log(error.res);
+      });
   };
 
   return (
@@ -63,10 +81,17 @@ export default function Login() {
           className="d-flex align-items-center justify-content-center"
           style={{ minHeight: "150px" }}
         >
-          <h1 className="text-dark text-center fs-3">
-            Successfully Logged in, <br />
-            Thank You
-          </h1>
+          <h1 className="text-primary text-center fs-3">
+            Successfully Logged in, Thank You
+          </h1>{" "}
+          &nbsp; &nbsp;
+          <p>
+            <span className="line my-2">
+              <Link className="btn btn-success text-light my-2" to="/">
+                Back to home
+              </Link>
+            </span>
+          </p>
         </section>
       ) : (
         <section className="vh-100" style={{ backgroundColor: "#eee" }}>

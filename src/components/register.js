@@ -47,9 +47,9 @@ const Register = () => {
 
   const [address, setAddress] = useState("");
 
-  const [value, setValue] = useState(null);
+  // const [value, setValue] = useState(null);
 
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
 
   useEffect(() => {
     userRef.current.focus();
@@ -88,25 +88,25 @@ const Register = () => {
     if (v1 && v2 && v3) {
       setSuccess(true);
     }
-    const url = "https://strofesapps.live/junglewatch/user/register";
+    // const url = "https://strofesapps.live/junglewatch/user/register";
 
-    axios
-      .post(url, {
-        user: "",
-        email: "",
-        phonenum: "",
-        pwd: "",
-        organization: "",
-        country: "",
-        lat: "",
-        lng: "",
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
+    // axios
+    //   .post(url, {
+    //     user: "",
+    //     email: "",
+    //     phonenum: "",
+    //     pwd: "",
+    //     organization: "",
+    //     country: "",
+    //     lat: "",
+    //     lng: "",
+    //   })
+    //   .then((response) => {
+    //     console.log(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.response);
+    //   });
   };
 
   return (
