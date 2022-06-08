@@ -64,9 +64,8 @@ export default function Login() {
 
     axios
       .post(url, {
-        "phonenum": "",
-        "pwd": "",
-
+        phonenum,
+        pwd,
       })
       .then((res) => {
         const details = res.data;

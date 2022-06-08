@@ -9,22 +9,24 @@ import { Link } from "react-router-dom";
 import CountrySelect from "react-bootstrap-country-select";
 import axios from "axios";
 
-
-const EMAIL_REGEX =
-  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const PHONE_REGEX = /^[6-9]\d{9}$/;
-const PWD_REGEX =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[0-9])(?=.*[!@#$%^&*-]{2})[A-Za-z\d!@#$%^&*-]{8,12}$/;
-
 const Register = () => {
   const userRef = useRef();
+
+  const EMAIL_REGEX =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const PHONE_REGEX = /^[6-9]\d{9}$/;
+  const PASSWORD_REGEX =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[0-9])(?=.*[!@#$%^&*-]{2})[A-Za-z\d!@#$%^&*-]{8,12}$/;
 
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
   const [status, setStatus] = useState(null);
 
-  const [user, setUser] = useState("");
-  const [userFocus, setUserFocus] = useState(false);
+  const [firstname, setFirstname] = useState("");
+  const [firstnameFocus, setFirstnameFocus] = useState(false);
+
+  const [lastname, setLastname] = useState("");
+  const [lastnameFocus, setLastnameFocus] = useState(false);
 
   const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(false);
@@ -36,19 +38,19 @@ const Register = () => {
   const [country, setCountry] = useState("");
   const [countryFocus, setCountryFocus] = useState(false);
 
-  const [phonenum, setPhonenum] = useState("");
-  const [validPhonenum, setValidPhonenum] = useState(false);
-  const [phonenumFocus, setPhonenumFocus] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [validPhone, setValidPhone] = useState(false);
+  const [phoneFocus, setPhoneFocus] = useState(false);
 
-  const [pwd, setPwd] = useState("");
-  const [validPwd, setValidPwd] = useState(false);
-  const [pwdFocus, setPwdFocus] = useState(false);
+  const [password, setPassword] = useState("");
+  const [validPassword, setValidPassword] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
 
   const [success, setSuccess] = useState(false);
 
   const [address, setAddress] = useState("");
 
-  // const [value, setValue] = useState(null);
+  const [err, setErr] = useState("");
 
   const [data, setData] = useState([]);
 
@@ -58,9 +60,9 @@ const Register = () => {
 
   useEffect(() => {
     setValidEmail(EMAIL_REGEX.test(email));
-    setValidPhonenum(PHONE_REGEX.test(phonenum));
-    setValidPwd(PWD_REGEX.test(pwd));
-  }, [email, phonenum, pwd]);
+    setValidPhone(PHONE_REGEX.test(phone));
+    setValidPassword(PASSWORD_REGEX.test(password));
+  }, [email, phone, password]);
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -83,31 +85,48 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const v1 = EMAIL_REGEX.test(email);
-    const v2 = PHONE_REGEX.test(phonenum);
-    const v3 = PWD_REGEX.test(pwd);
+    const v2 = PHONE_REGEX.test(phone);
+    const v3 = PASSWORD_REGEX.test(password);
 
     if (v1 && v2 && v3) {
       setSuccess(true);
     }
+
     const url = "https://strofesapps.live/junglewatch/user/register";
+
+    // try {
+    //   const resp = await axios.post(url, {
+    //     user,
+    //     email,
+    //     phone,
+    //     pwd,
+    //     organization,
+    //     // country,
+    //     lat,
+    //     lng,
+    //   });
+    //   console.log(resp);
+    // } catch (error) {
+    //   console.log(error.response);
 
     axios
       .post(url, {
-        user: "",
-        email: "",
-        phonenum: "",
-        pwd: "",
-        organization: "",
-        country: "",
-        lat: "",
-        lng: "",
+        firstname,
+        lastname,
+        email,
+        phone,
+        password,
+        organization,
+        country,
+        lat,
+        lng,
       })
       .then((response) => {
-        const formdetails = response.data;
-        setData({ formdetails });
+        const details = response.data;
+        setData({ details });
       })
       .catch((error) => {
-        console.log(error.response);
+        setErr(error.response.data);
       });
   };
 
@@ -145,18 +164,31 @@ const Register = () => {
                         </p>
 
                         <form onSubmit={handleSubmit}>
-                          <label className="text-dark" htmlFor="fullname">
-                            Full Name:
+                          <label className="text-dark" htmlFor="firstname">
+                            First Name:
                           </label>
                           <input
                             type="text"
-                            id="fullname"
+                            id="firstname"
                             ref={userRef}
                             autoComplete="off"
-                            onChange={(e) => setUser(e.target.value)}
+                            onChange={(e) => setFirstname(e.target.value)}
                             required
-                            onFocus={() => setUserFocus(true)}
-                            onBlur={() => setUserFocus(false)}
+                            onFocus={() => setFirstnameFocus(true)}
+                            onBlur={() => setFirstnameFocus(false)}
+                          />
+                          <label className="text-dark" htmlFor="firstname">
+                            Last Name:
+                          </label>
+                          <input
+                            type="text"
+                            id="lastname"
+                            ref={userRef}
+                            autoComplete="off"
+                            onChange={(e) => setLastname(e.target.value)}
+                            required
+                            onFocus={() => setLastnameFocus(true)}
+                            onBlur={() => setLastnameFocus(false)}
                           />
                           <label className="text-dark" htmlFor="email">
                             Email:
@@ -201,12 +233,12 @@ const Register = () => {
                             Phone:
                             <FontAwesomeIcon
                               icon={faCheck}
-                              className={validPhonenum ? "valid" : "hide"}
+                              className={validPhone ? "valid" : "hide"}
                             />
                             <FontAwesomeIcon
                               icon={faTimes}
                               className={
-                                validPhonenum || !phonenum ? "hide" : "invalid"
+                                validPhone || !phone ? "hide" : "invalid"
                               }
                             />
                           </label>
@@ -214,17 +246,17 @@ const Register = () => {
                             type="tel"
                             id="phone"
                             autoComplete="off"
-                            onChange={(e) => setPhonenum(e.target.value)}
-                            value={phonenum}
+                            onChange={(e) => setPhone(e.target.value)}
+                            value={phone}
                             required
-                            aria-invalid={validPhonenum ? "false" : "true"}
-                            onFocus={() => setPhonenumFocus(true)}
-                            onBlur={() => setPhonenumFocus(false)}
+                            aria-invalid={validPhone ? "false" : "true"}
+                            onFocus={() => setPhoneFocus(true)}
+                            onBlur={() => setPhoneFocus(false)}
                           />
                           <p
                             id="phonenote"
                             className={
-                              phonenumFocus && !validPhonenum
+                              phoneFocus && !validPhone
                                 ? "instructions"
                                 : "offscreen"
                             }
@@ -286,27 +318,29 @@ const Register = () => {
                             Password:
                             <FontAwesomeIcon
                               icon={faCheck}
-                              className={validPwd ? "valid" : "hide"}
+                              className={validPassword ? "valid" : "hide"}
                             />
                             <FontAwesomeIcon
                               icon={faTimes}
-                              className={validPwd || !pwd ? "hide" : "invalid"}
+                              className={
+                                validPassword || !password ? "hide" : "invalid"
+                              }
                             />
                           </label>
                           <input
                             type="password"
                             id="password"
-                            onChange={(e) => setPwd(e.target.value)}
-                            value={pwd}
+                            onChange={(e) => setPassword(e.target.value)}
+                            value={password}
                             required
-                            aria-invalid={validPwd ? "false" : "true"}
-                            onFocus={() => setPwdFocus(true)}
-                            onBlur={() => setPwdFocus(false)}
+                            aria-invalid={validPassword ? "false" : "true"}
+                            onFocus={() => setPasswordFocus(true)}
+                            onBlur={() => setPasswordFocus(false)}
                           />
                           <p
                             id="pwdnote"
                             className={
-                              pwdFocus && !validPwd
+                              passwordFocus && !validPassword
                                 ? "instructions"
                                 : "offscreen"
                             }
@@ -330,7 +364,7 @@ const Register = () => {
                           <button
                             className="my-3 btn btn-warning"
                             disabled={
-                              !validPwd || !validEmail || !validPhonenum
+                              !validPassword && !validEmail && !validPhone
                                 ? true
                                 : false
                             }
@@ -349,7 +383,8 @@ const Register = () => {
                             >
                               Login
                             </Link>
-                          </span> &nbsp;
+                          </span>{" "}
+                          &nbsp;
                           <span className="line my-2">
                             <Link
                               className="btn btn-success text-light my-2"

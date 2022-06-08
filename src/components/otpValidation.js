@@ -54,6 +54,7 @@ const OTPBox = () => {
                 {otp.map((data, index) => {
                   return (
                     <input
+                      style={{ backgroundColor: "#e3e1e1" }}
                       type="text"
                       name="otp"
                       maxLength="1"
