@@ -18,8 +18,6 @@ const OtpValidation = () => {
   const [phone, setPhone] = useState("");
   const [validPhone, setValidPhone] = useState(false);
 
-  const [errMsg, setErrMsg] = useState("");
-
   useEffect(() => {
     setValidPhone(PHONE_REGEX.test(phone));
   }, [phone]);
@@ -57,7 +55,7 @@ const OtpValidation = () => {
         setError(error.res);
       });
 
-    alert("Entered OTP is " + otp.join(""));
+    // alert("Entered OTP is " + otp.join(""));
   };
 
   const resendOTP = () => {
@@ -135,7 +133,7 @@ const OtpValidation = () => {
                     })}
                   </div>
 
-                  <p className="pt-2">OTP Entered - {otp.join("")}</p>
+                  {/* <p className="pt-2">OTP Entered - {otp.join("")}</p> */}
                   <button onClick={sendOTP} className="btn btn-primary">
                     Verify OTP
                   </button>
