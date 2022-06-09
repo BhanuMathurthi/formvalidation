@@ -13,16 +13,16 @@ export default function Login() {
   const userRef = useRef();
 
   const PHONE_REGEX = /^[6-9]\d{9}$/;
-  const PWD_REGEX =
+  const PASSWORD_REGEX =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[0-9])(?=.*[!@#$%^&*-]{2})[A-Za-z\d!@#$%^&*-]{8,12}$/;
 
-  const [phonenum, setPhonenum] = useState("");
-  const [validPhonenum, setValidPhonenum] = useState(false);
-  const [phonenumFocus, setPhonenumFocus] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [validPhone, setValidPhone] = useState(false);
+  const [phoneFocus, setPhoneFocus] = useState(false);
 
-  const [pwd, setPwd] = useState("");
-  const [validPwd, setValidPwd] = useState(false);
-  const [pwdFocus, setPwdFocus] = useState(false);
+  const [password, setPassword] = useState("");
+  const [validPassword, setValidPassword] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
 
   const [data, setData] = useState([]);
 
@@ -32,20 +32,17 @@ export default function Login() {
   const [err, setErr] = useState("");
 
   useEffect(() => {
-    setValidPhonenum(PHONE_REGEX.test(phonenum));
-  }, [phonenum]);
+    setValidPhone(PHONE_REGEX.test(phone));
+    setValidPassword(PASSWORD_REGEX.test(password));
+  }, [phone, password]);
 
   useEffect(() => {
     setErrMsg("invalid phone number");
-  }, [phonenum]);
-
-  useEffect(() => {
-    setValidPwd(PWD_REGEX.test(pwd));
-  }, [pwd]);
+  }, [phone]);
 
   useEffect(() => {
     setErrMsg("Invalid password");
-  }, [pwd]);
+  }, [password]);
 
   useEffect(() => {
     userRef.current.focus();
@@ -53,8 +50,8 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const v1 = PHONE_REGEX.test(phonenum);
-    const v2 = PWD_REGEX.test(pwd);
+    const v1 = PHONE_REGEX.test(phone);
+    const v2 = PASSWORD_REGEX.test(password);
 
     if (v1 && v2) {
       setSuccess(true);
@@ -64,8 +61,8 @@ export default function Login() {
 
     axios
       .post(url, {
-        phonenum,
-        pwd,
+        phone,
+        password,
       })
       .then((res) => {
         const details = res.data;
@@ -115,32 +112,30 @@ export default function Login() {
                             Phone:
                             <FontAwesomeIcon
                               icon={faCheck}
-                              className={validPhonenum ? "valid" : "hide"}
+                              className={validPhone ? "valid" : "hide"}
                             />
                             <FontAwesomeIcon
                               icon={faTimes}
                               className={
-                                validPhonenum || !phonenum ? "hide" : "invalid"
+                                validPhone || !phone ? "hide" : "invalid"
                               }
                             />
                           </label>
                           <input
                             type="tel"
                             id="phone"
-                            ref={userRef}
                             autoComplete="off"
-                            onChange={(e) => setPhonenum(e.target.value)}
-                            value={phonenum}
+                            onChange={(e) => setPhone(e.target.value)}
+                            value={phone}
                             required
-                            aria-invalid={validPhonenum ? "false" : "true"}
-                            aria-describedby="uidnote"
-                            onFocus={() => setPhonenumFocus(true)}
-                            onBlur={() => setPhonenumFocus(false)}
+                            aria-invalid={validPhone ? "false" : "true"}
+                            onFocus={() => setPhoneFocus(true)}
+                            onBlur={() => setPhoneFocus(false)}
                           />
                           <p
                             id="phonenote"
                             className={
-                              phonenumFocus && !validPhonenum
+                              phoneFocus && !validPhone
                                 ? "instructions"
                                 : "offscreen"
                             }
@@ -155,28 +150,29 @@ export default function Login() {
                             Password:
                             <FontAwesomeIcon
                               icon={faCheck}
-                              className={validPwd ? "valid" : "hide"}
+                              className={validPassword ? "valid" : "hide"}
                             />
                             <FontAwesomeIcon
                               icon={faTimes}
-                              className={validPwd || !pwd ? "hide" : "invalid"}
+                              className={
+                                validPassword || !password ? "hide" : "invalid"
+                              }
                             />
                           </label>
                           <input
                             type="password"
                             id="password"
-                            onChange={(e) => setPwd(e.target.value)}
-                            value={pwd}
+                            onChange={(e) => setPassword(e.target.value)}
+                            value={password}
                             required
-                            aria-invalid={validPwd ? "false" : "true"}
-                            aria-describedby="pwdnote"
-                            onFocus={() => setPwdFocus(true)}
-                            onBlur={() => setPwdFocus(false)}
+                            aria-invalid={validPassword ? "false" : "true"}
+                            onFocus={() => setPasswordFocus(true)}
+                            onBlur={() => setPasswordFocus(false)}
                           />
                           <p
                             id="pwdnote"
                             className={
-                              pwdFocus && !validPwd
+                              passwordFocus && !validPassword
                                 ? "instructions"
                                 : "offscreen"
                             }
@@ -200,7 +196,7 @@ export default function Login() {
                           <button
                             className="mt-4 btn btn-success"
                             disabled={
-                              !validPhonenum && !validPwd ? true : false
+                              !validPhone && !validPassword ? true : false
                             }
                           >
                             Login

@@ -1,7 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import {
+  faCheck,
+  faTimes,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Register from "./register";
 
-const OTPBox = () => {
+const OtpValidation = () => {
+  const PHONE_REGEX = /^[6-9]\d{9}$/;
+
   const [otp, setOtp] = useState(new Array(4).fill(""));
+
+  const [data, setData] = useState("");
+  const [error, setError] = useState("");
+
+  const [phone, setPhone] = useState("");
+  const [validPhone, setValidPhone] = useState(false);
+  const [phoneFocus, setPhoneFocus] = useState(false);
+
+  const [errMsg, setErrMsg] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    setValidPhone(PHONE_REGEX.test(phone));
+  }, [phone]);
 
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return false;
@@ -11,6 +35,47 @@ const OTPBox = () => {
     if (element.nextSibling) {
       element.nextSibling.focus();
     }
+  };
+
+  const sendOTP = (e) => {
+    e.preventDefault();
+    // const v1 = PHONE_REGEX.test(phone);
+
+    // if (v1) {
+    //   setSuccess(true);
+    // }
+
+    const verifyotpurl = "https://strofesapps.live/junglewatch/user/verifyOTP";
+
+    axios
+      .post(verifyotpurl, {
+        otp,
+        phone: "8074715667",
+      })
+      .then((res) => {
+        const details = res.data;
+        setData({ details });
+      })
+      .catch((error) => {
+        setError(error.res);
+      });
+
+    alert("Entered OTP is " + otp.join(""));
+  };
+
+  const resendOTP = () => {
+    const resendotpurl = "https://strofesapps.live/junglewatch/user/resendOTP";
+    axios
+      .post(resendotpurl, {
+        phone: "8074715667",
+      })
+      .then((res) => {
+        const details = res.data;
+        setData({ details });
+      })
+      .catch((error) => {
+        setError(error.res);
+      });
   };
 
   return (
@@ -31,7 +96,7 @@ const OTPBox = () => {
                 borderRadius: "20px",
                 background: "#fff",
                 border: "none",
-                height: "350px",
+                height: "400px",
                 position: "relative",
                 display: "flex",
                 flexDirection: "column",
@@ -44,6 +109,7 @@ const OTPBox = () => {
               className="card"
             >
               <h5 className="pt-4">Mobile phone verification</h5>
+
               <span
                 style={{ color: "#989696b8", fontSize: "15px" }}
                 className="my-2"
@@ -69,23 +135,15 @@ const OTPBox = () => {
               </div>
 
               <p className="pt-2">OTP Entered - {otp.join("")}</p>
-              <button
-                onClick={(e) => alert("Entered OTP is " + otp.join(""))}
-                className="btn btn-primary"
-              >
+              <button onClick={sendOTP} className="btn btn-primary">
                 Verify OTP
               </button>
 
               <div className="text-center mt-3">
-                <span
-                  style={{ color: "#989696b8", fontSize: "15px" }}
-                  className="d-block "
-                >
-                  Don't receive the code?
-                </span>
-                <span className="font-weight-bold text-danger cursor">
-                  Resend
-                </span>
+                <p style={{ fontSize: "15px" }}>Don't receive the code?</p>
+                <button onClick={resendOTP} className="btn btn-link">
+                  Resend OTP
+                </button>
               </div>
             </div>
           </div>
@@ -95,4 +153,4 @@ const OTPBox = () => {
   );
 };
 
-export default OTPBox;
+export default OtpValidation;
