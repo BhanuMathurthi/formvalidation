@@ -8,12 +8,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import CountrySelect from "react-bootstrap-country-select";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 
 const Register = () => {
   const userRef = useRef();
 
-  const params = useParams();
   const navigate = useNavigate();
 
   const EMAIL_REGEX =
@@ -126,7 +125,9 @@ const Register = () => {
             className="d-flex align-items-center justify-content-center"
             style={{ minHeight: "150px" }}
           >
-            <h2 className="my-4 text-success text-center">{details.message}</h2>{" "}
+            <h2 className="my-4 text-success text-center">
+              {details.error.message}
+            </h2>{" "}
           </section>;
         }
       })
