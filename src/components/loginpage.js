@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function Login() {
-  const userRef = useRef();
+  // const userRef = useRef();
 
   const PHONE_REGEX = /^[6-9]\d{9}$/;
   const PASSWORD_REGEX =
@@ -44,9 +44,9 @@ export default function Login() {
     setErrMsg("Invalid password");
   }, [password]);
 
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
+  // useEffect(() => {
+  //   userRef.current.focus();
+  // }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -205,9 +205,9 @@ export default function Login() {
                             <br />
                             <span className="line">
                               <Link
+                                to="/forgotpassword"
                                 className="text-danger"
                                 style={{ textDecoration: "none" }}
-                                to="/forgot-password"
                               >
                                 forgot password?
                               </Link>

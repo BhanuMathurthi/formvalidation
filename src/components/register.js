@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import CountrySelect from "react-bootstrap-country-select";
 import axios from "axios";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const userRef = useRef();
@@ -381,15 +381,6 @@ const Register = () => {
                             Login
                           </Link>
                         </span>{" "}
-                        &nbsp;
-                        <span className="line my-2">
-                          <Link
-                            className="btn btn-success text-light my-2"
-                            to="/otpbox"
-                          >
-                            Otp validation
-                          </Link>
-                        </span>
                       </p>
                     </div>
                     <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
