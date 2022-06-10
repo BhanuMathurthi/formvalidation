@@ -1,24 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const OtpValidation = () => {
-  const PHONE_REGEX = /^[6-9]\d{9}$/;
-
+const OtpValidation = ({ phone }) => {
   const navigate = useNavigate();
 
   const [otp, setOtp] = useState(new Array(4).fill(""));
 
   const [data, setData] = useState("");
-  const [error, setError] = useState("");
-  // const [success, setSuccess] = useState(false);
-
-  const [phone, setPhone] = useState("");
-  const [validPhone, setValidPhone] = useState(false);
-
-  useEffect(() => {
-    setValidPhone(PHONE_REGEX.test(phone));
-  }, [phone]);
+  const [error, setError] = useState(null);
 
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return false;
@@ -39,61 +29,27 @@ const OtpValidation = () => {
       .post(
         verifyotpurl,
         JSON.stringify({
+          phone: `${phone}`,
           otp,
-          phone,
         })
       )
       .then((response) => {
-        const details = response.json();
-        setData(details.data);
+        const detail = response.json();
+        setData(detail);
 
-        if (details.data === "verified") {
-          return navigate("/welcomepage");
-        }
+        if (detail.data === "verified") navigate("/welcomepage");
       })
       .catch((err) => {
         setError(err.message);
       });
   };
 
-  // const sendOTP = (e) => {
-  //   e.preventDefault();
-
-  //   const verifyotpurl = "https://strofesapps.live/junglewatch/user/verifyOTP";
-
-  //   axios
-  //     .post(
-  //       verifyotpurl,
-  //       JSON.stringify({
-  //         otp,
-  //         phone,
-  //       })
-  //     )
-  //     .then((res) => {
-  //       const details = res.data;
-  //       setData(details);
-
-  //       // const details = res.json();
-  //       // setData(details);
-  //     })
-  //     .catch((err) => {
-  //       setError(err.message);
-  //     });
-
-  //   // alert("Entered OTP is " + otp.join(""));
-  // };
-
   const resendOTP = () => {
     const resendotpurl = "https://strofesapps.live/junglewatch/user/resendOTP";
     axios
-      .post(
-        resendotpurl,
-        JSON.stringify({
-          phone,
-        })
-      )
+      .post(resendotpurl, { phone: `${phone}` })
       .then((res) => {
-        const details = res.json().data;
+        const details = res.data;
         setData(details);
       })
       .catch((err) => {
@@ -142,35 +98,34 @@ const OtpValidation = () => {
                 >
                   Enter the OTP sent to you to verify your identity
                 </span>
-                <form onSubmit={verifyOTP}>
-                  <div className="d-flex flex-row mt-3">
-                    {otp.map((data, index) => {
-                      return (
-                        <input
-                          style={{ backgroundColor: "#e3e1e1" }}
-                          type="text"
-                          name="otp"
-                          maxLength="1"
-                          className="form-control mx-1"
-                          key={index}
-                          value={data}
-                          onChange={(e) => handleChange(e.target, index)}
-                          onFocus={(e) => e.target.select()}
-                        />
-                      );
-                    })}
-                  </div>
+                <div className="d-flex flex-row mt-3">
+                  {otp.map((data, index) => {
+                    return (
+                      <input
+                        style={{ backgroundColor: "#e3e1e1" }}
+                        type="text"
+                        name="otp"
+                        maxLength="1"
+                        className="form-control mx-1"
+                        key={index}
+                        value={data}
+                        onChange={(e) => handleChange(e.target, index)}
+                        onFocus={(e) => e.target.select()}
+                      />
+                    );
+                  })}
+                </div>
 
-                  {/* <p className="pt-2">OTP Entered - {otp.join("")}</p> */}
-                  <button className="btn btn-primary">Verify OTP</button>
+                <button onClick={verifyOTP} className="btn btn-primary">
+                  Verify OTP
+                </button>
 
-                  <div className="text-center mt-3">
-                    <p style={{ fontSize: "15px" }}>Don't receive the code?</p>
-                    <button onClick={resendOTP} className="btn btn-link">
-                      Resend OTP
-                    </button>
-                  </div>
-                </form>
+                <div className="text-center mt-3">
+                  <p style={{ fontSize: "15px" }}>Don't receive the code?</p>
+                  <button onClick={resendOTP} className="btn btn-link">
+                    Resend OTP
+                  </button>
+                </div>
               </div>
             </div>
           </div>

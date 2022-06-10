@@ -53,9 +53,9 @@ const Register = () => {
 
   const [address, setAddress] = useState("");
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
 
-  const [details, setDetails] = useState("");
+  const [data, setData] = useState("");
 
   useEffect(() => {
     userRef.current.focus();
@@ -112,13 +112,16 @@ const Register = () => {
         })
       )
       .then((response) => {
-        // const detail = response.json();
-        // setDetails(detail);
+        const detail = response.json();
+        setData(detail);
 
-        const detail = response.data;
-        setDetails(detail);
+        if (detail.status) navigate("/otpvalidation", { phone: phone });
+      })
+      .catch((error) => {
+        setError(error);
+      });
 
-        /*
+    /*
         1. check the status of the api(details)
         2. status: if false, display details.msg
         3.if true, display the message
@@ -126,25 +129,16 @@ const Register = () => {
         5.
          */
 
-        if (detail.status)
-          return navigate("/otpvalidation", {
-            phone,
-          });
-
-        // if (!detail.status) {
-        //   <section
-        //     className="d-flex align-items-center justify-content-center"
-        //     style={{ minHeight: "150px" }}
-        //   >
-        //     <h2 className="my-4 text-success text-center">
-        //       {details.error.message}
-        //     </h2>{" "}
-        //   </section>;
-        // }
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
+    // if (!detail.status) {
+    //   <section
+    //     className="d-flex align-items-center justify-content-center"
+    //     style={{ minHeight: "150px" }}
+    //   >
+    //     <h2 className="my-4 text-success text-center">
+    //       {details.error.message}
+    //     </h2>{" "}
+    //   </section>;
+    // }
   };
 
   return (
@@ -161,7 +155,9 @@ const Register = () => {
                         Sign Up
                       </p>
 
-                      {error && <p className="text-danger">Invalid Details</p>}
+                      {error && (
+                        <p className="text-danger">Error: {error.message}</p>
+                      )}
 
                       <form onSubmit={handleSubmit}>
                         <div className="row mt-3">
