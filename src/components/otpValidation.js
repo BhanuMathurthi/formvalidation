@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import WelcomePage from "./welcomePage";
 import { useNavigate } from "react-router-dom";
 
 const OtpValidation = () => {
@@ -10,10 +9,9 @@ const OtpValidation = () => {
 
   const [otp, setOtp] = useState(new Array(4).fill(""));
 
-  const [success, setSuccess] = useState(false);
-
   const [data, setData] = useState("");
   const [error, setError] = useState("");
+  // const [success, setSuccess] = useState(false);
 
   const [phone, setPhone] = useState("");
   const [validPhone, setValidPhone] = useState(false);
@@ -32,89 +30,119 @@ const OtpValidation = () => {
     }
   };
 
-  const sendOTP = (e) => {
+  const verifyOTP = (e) => {
     e.preventDefault();
-    const v1 = PHONE_REGEX.test(phone);
-
-    if (v1) {
-      setSuccess(true);
-    }
 
     const verifyotpurl = "https://strofesapps.live/junglewatch/user/verifyOTP";
 
     axios
-      .post(verifyotpurl, {
-        otp,
-        phone,
-      })
-      .then((res) => {
-        const details = res.data;
-        setData({ details });
-      })
-      .catch((error) => {
-        setError(error.res);
-      });
+      .post(
+        verifyotpurl,
+        JSON.stringify({
+          otp,
+          phone,
+        })
+      )
+      .then((response) => {
+        const details = response.json();
+        setData(details.data);
 
-    // alert("Entered OTP is " + otp.join(""));
+        if (details.data === "verified") {
+          return navigate("/welcomepage");
+        }
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
   };
+
+  // const sendOTP = (e) => {
+  //   e.preventDefault();
+
+  //   const verifyotpurl = "https://strofesapps.live/junglewatch/user/verifyOTP";
+
+  //   axios
+  //     .post(
+  //       verifyotpurl,
+  //       JSON.stringify({
+  //         otp,
+  //         phone,
+  //       })
+  //     )
+  //     .then((res) => {
+  //       const details = res.data;
+  //       setData(details);
+
+  //       // const details = res.json();
+  //       // setData(details);
+  //     })
+  //     .catch((err) => {
+  //       setError(err.message);
+  //     });
+
+  //   // alert("Entered OTP is " + otp.join(""));
+  // };
 
   const resendOTP = () => {
     const resendotpurl = "https://strofesapps.live/junglewatch/user/resendOTP";
     axios
-      .post(resendotpurl, {
-        phone,
-      })
+      .post(
+        resendotpurl,
+        JSON.stringify({
+          phone,
+        })
+      )
       .then((res) => {
-        const details = res.data;
-        setData({ details });
+        const details = res.json().data;
+        setData(details);
       })
-      .catch((error) => {
-        setError(error.res);
+      .catch((err) => {
+        setError(err.message);
       });
   };
 
   return (
     <>
-      {success ? (
-        navigate("/welcomepage")
-      ) : (
-        <section style={{ backgroundColor: "#888" }}>
-          <div className="container">
-            <div className="row vh-100 justify-content-center align-items-center">
-              <div className="col-md-8 col-lg-4">
-                <div
-                  style={{
-                    paddingTop: "3rem",
-                    paddingRight: "1rem",
-                    paddingBottom: "3rem",
-                    paddingLeft: "1rem",
+      <section style={{ backgroundColor: "#888" }}>
+        <div className="container">
+          <div className="row vh-100 justify-content-center align-items-center">
+            <div className="col-md-8 col-lg-4">
+              <div
+                style={{
+                  paddingTop: "3rem",
+                  paddingRight: "1rem",
+                  paddingBottom: "3rem",
+                  paddingLeft: "1rem",
 
-                    width: "350px",
-                    margin: "0 auto",
-                    padding: "10px",
-                    borderRadius: "20px",
-                    background: "#fff",
-                    border: "none",
-                    height: "400px",
-                    position: "relative",
-                    display: "flex",
-                    flexDirection: "column",
-                    minWidth: "0",
-                    wordWrap: "break-word",
-                    backgroundClip: "border-box",
-                    border: "1px solid rgba(0,0,0,.125)",
-                    borderRadius: "0.95rem",
-                  }}
-                  className="card"
+                  width: "350px",
+                  margin: "0 auto",
+                  padding: "10px",
+                  borderRadius: "20px",
+                  background: "#fff",
+                  border: "none",
+                  height: "400px",
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  minWidth: "0",
+                  wordWrap: "break-word",
+                  backgroundClip: "border-box",
+                  border: "1px solid rgba(0,0,0,.125)",
+                  borderRadius: "0.95rem",
+                }}
+                className="card"
+              >
+                <h5 className="pt-4">Mobile phone verification</h5>
+
+                {error && <p className="text-danger">Invalid OTP</p>}
+
+                <span
+                  style={{ color: "#989696b8", fontSize: "15px" }}
+                  className="my-2"
                 >
-                  <h5 className="pt-4">Mobile phone verification</h5>
-
-                  <span
-                    style={{ color: "#989696b8", fontSize: "15px" }}
-                    className="my-2"
-                  >
-                    Enter the OTP sent to you to verify your identity
-                  </span>
+                  Enter the OTP sent to you to verify your identity
+                </span>
+                <form onSubmit={verifyOTP}>
                   <div className="d-flex flex-row mt-3">
                     {otp.map((data, index) => {
                       return (
@@ -134,9 +162,7 @@ const OtpValidation = () => {
                   </div>
 
                   {/* <p className="pt-2">OTP Entered - {otp.join("")}</p> */}
-                  <button onClick={sendOTP} className="btn btn-primary">
-                    Verify OTP
-                  </button>
+                  <button className="btn btn-primary">Verify OTP</button>
 
                   <div className="text-center mt-3">
                     <p style={{ fontSize: "15px" }}>Don't receive the code?</p>
@@ -144,12 +170,12 @@ const OtpValidation = () => {
                       Resend OTP
                     </button>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
     </>
   );
 };

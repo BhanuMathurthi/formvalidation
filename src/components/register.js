@@ -85,7 +85,7 @@ const Register = () => {
     }
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const v1 = EMAIL_REGEX.test(email);
     const v2 = PHONE_REGEX.test(phone);
@@ -98,19 +98,26 @@ const Register = () => {
     const url = "https://strofesapps.live/junglewatch/user/register";
 
     axios
-      .post(url, {
-        firstname,
-        lastname,
-        email,
-        phone,
-        password,
-        organization,
-        lat,
-        lng,
-      })
+      .post(
+        url,
+        JSON.stringify({
+          firstname,
+          lastname,
+          email,
+          phone,
+          password,
+          organization,
+          lat,
+          lng,
+        })
+      )
       .then((response) => {
+        // const detail = response.json();
+        // setDetails(detail);
+
         const detail = response.data;
-        setDetails({ detail });
+        setDetails(detail);
+
         /*
         1. check the status of the api(details)
         2. status: if false, display details.msg
@@ -119,7 +126,11 @@ const Register = () => {
         5.
          */
 
-        if (detail.status) navigate("/otpvalidation");
+        // if (detail.status) navigate(`/otpvalidation/${phone}`);
+
+        navigate("/otpvalidation", {
+          phone,
+        });
         if (!detail.status) {
           <section
             className="d-flex align-items-center justify-content-center"

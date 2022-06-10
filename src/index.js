@@ -8,12 +8,14 @@ import { BrowserRouter as Router } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 import "./App.css";
+// import OtpValidation from "./components/otpValidation";
 
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>
     <Router basename={process.env.PUBLIC_URL}>
       <App />
+      {/* <OtpValidation /> */}
     </Router>
   </StrictMode>
 );
