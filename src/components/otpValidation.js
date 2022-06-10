@@ -120,7 +120,7 @@ const OtpValidation = () => {
                   borderRadius: "20px",
                   background: "#fff",
                   border: "none",
-                  height: "400px",
+                  height: "380px",
                   position: "relative",
                   display: "flex",
                   flexDirection: "column",

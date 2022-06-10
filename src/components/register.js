@@ -126,24 +126,24 @@ const Register = () => {
         5.
          */
 
-        // if (detail.status) navigate(`/otpvalidation/${phone}`);
+        if (detail.status)
+          return navigate("/otpvalidation", {
+            phone,
+          });
 
-        navigate("/otpvalidation", {
-          phone,
-        });
-        if (!detail.status) {
-          <section
-            className="d-flex align-items-center justify-content-center"
-            style={{ minHeight: "150px" }}
-          >
-            <h2 className="my-4 text-success text-center">
-              {details.error.message}
-            </h2>{" "}
-          </section>;
-        }
+        // if (!detail.status) {
+        //   <section
+        //     className="d-flex align-items-center justify-content-center"
+        //     style={{ minHeight: "150px" }}
+        //   >
+        //     <h2 className="my-4 text-success text-center">
+        //       {details.error.message}
+        //     </h2>{" "}
+        //   </section>;
+        // }
       })
-      .catch((error) => {
-        setError(error.response);
+      .catch((err) => {
+        setError(err.message);
       });
   };
 
@@ -160,6 +160,8 @@ const Register = () => {
                       <p className="text-center text-primary h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
                         Sign Up
                       </p>
+
+                      {error && <p className="text-danger">Invalid Details</p>}
 
                       <form onSubmit={handleSubmit}>
                         <div className="row mt-3">
