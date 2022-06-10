@@ -53,7 +53,7 @@ const Register = () => {
 
   const [address, setAddress] = useState("");
 
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
 
   const [data, setData] = useState("");
 
@@ -98,22 +98,19 @@ const Register = () => {
     const url = "https://strofesapps.live/junglewatch/user/register";
 
     axios
-      .post(
-        url,
-        JSON.stringify({
-          firstname,
-          lastname,
-          email,
-          phone,
-          password,
-          organization,
-          lat,
-          lng,
-        })
-      )
+      .post(url, {
+        firstname,
+        lastname,
+        email,
+        phone,
+        password,
+        organization,
+        lat,
+        lng,
+      })
       .then((response) => {
         const detail = response.json();
-        setData(detail);
+        setData(JSON.stringify(detail));
 
         if (detail.status) navigate("/otpvalidation", { phone: phone });
       })

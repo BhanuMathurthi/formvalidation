@@ -8,7 +8,7 @@ const OtpValidation = ({ phone }) => {
   const [otp, setOtp] = useState(new Array(4).fill(""));
 
   const [data, setData] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return false;
@@ -23,19 +23,20 @@ const OtpValidation = ({ phone }) => {
   const verifyOTP = (e) => {
     e.preventDefault();
 
+    if (otp === "" || otp === null) return;
+
+    setError("");
+
     const verifyotpurl = "https://strofesapps.live/junglewatch/user/verifyOTP";
 
     axios
-      .post(
-        verifyotpurl,
-        JSON.stringify({
-          phone: `${phone}`,
-          otp,
-        })
-      )
+      .post(verifyotpurl, {
+        phone: `${phone}`,
+        otp,
+      })
       .then((response) => {
         const detail = response.json();
-        setData(detail);
+        setData(JSON.stringify(detail));
 
         if (detail.data === "verified") navigate("/welcomepage");
       })
@@ -49,8 +50,8 @@ const OtpValidation = ({ phone }) => {
     axios
       .post(resendotpurl, { phone: `${phone}` })
       .then((res) => {
-        const details = res.data;
-        setData(details);
+        const details = res.json();
+        setData(JSON.stringify(details));
       })
       .catch((err) => {
         setError(err.message);
