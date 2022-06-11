@@ -22,23 +22,18 @@ const OtpValidation = ({ phone }) => {
 
   const verifyOTP = (e) => {
     e.preventDefault();
-
     if (otp === "" || otp === null) return;
-
     setError("");
 
     const verifyotpurl = "https://strofesapps.live/junglewatch/user/verifyOTP";
 
     axios
-      .post(verifyotpurl, {
-        phone: "phone",
-        otp,
-      })
+      .post(verifyotpurl, { phone, otp })
       .then((response) => {
-        const detail = response.json();
+        const detail = response.data;
         setData(JSON.stringify(detail));
 
-        if (detail.data === "verified") navigate("/welcomepage");
+        if (detail.status) navigate("/welcomepage");
       })
       .catch((err) => {
         setError(err.message);
@@ -48,9 +43,9 @@ const OtpValidation = ({ phone }) => {
   const resendOTP = () => {
     const resendotpurl = "https://strofesapps.live/junglewatch/user/resendOTP";
     axios
-      .post(resendotpurl, { phone: `${phone}` })
+      .post(resendotpurl, { otp })
       .then((res) => {
-        const details = res.json();
+        const details = res.data;
         setData(JSON.stringify(details));
       })
       .catch((err) => {

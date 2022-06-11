@@ -109,7 +109,7 @@ const Register = () => {
         lng,
       })
       .then((response) => {
-        const detail = response.json();
+        const detail = response.data;
         setData(JSON.stringify(detail));
 
         if (detail.status) navigate("/otpvalidation", { phone: phone });
