@@ -31,7 +31,7 @@ const OtpValidation = ({ phone }) => {
 
     axios
       .post(verifyotpurl, {
-        phone: `${phone}`,
+        phone: "phone",
         otp,
       })
       .then((response) => {
