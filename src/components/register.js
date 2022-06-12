@@ -85,7 +85,7 @@ const Register = () => {
     }
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const v1 = EMAIL_REGEX.test(email);
     const v2 = PHONE_REGEX.test(phone);
@@ -112,11 +112,22 @@ const Register = () => {
         const detail = response.data;
         setData(JSON.stringify(detail));
 
-        if (detail.status) navigate("/otpvalidation", { phone: phone });
+        if (detail.status) navigate("/otpvalidation", { state: phone });
+        // if (detail.status) {
+        //   return <Link to={{ pathname: "/otpvalidation", phone: phone }} />;
+        // }
       })
       .catch((error) => {
         setError(error);
       });
+
+    // setFirstname("");
+    // setLastname("");
+    // setEmail("");
+    // setPhone("");
+    // setPassword("");
+    // setAddress("");
+    // setOrganization("");
 
     /*
         1. check the status of the api(details)
@@ -125,17 +136,6 @@ const Register = () => {
         4.navigate to otp page,(phonenum. parameter)
         5.
          */
-
-    // if (!detail.status) {
-    //   <section
-    //     className="d-flex align-items-center justify-content-center"
-    //     style={{ minHeight: "150px" }}
-    //   >
-    //     <h2 className="my-4 text-success text-center">
-    //       {details.error.message}
-    //     </h2>{" "}
-    //   </section>;
-    // }
   };
 
   return (
